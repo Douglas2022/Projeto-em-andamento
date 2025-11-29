@@ -5,14 +5,30 @@ import mysql.connector as my
 app = Flask(__name__)
 app.secret_key = "superselect123"  # NECESSÁRIO para session e flash!
 
+host = "douglas89.mysql.pythonanywhere-services.com"
+user = "douglas89"
+password = "Paulo#182"
+database = "SuperSelectD"
+
+#Paulo#182
+#douglas89
+#douglas89.mysql.pythonanywhere-services.com
+
+# host = "localhost" 
+# user = "root" 
+# password = "12345" 
+# database = "SuperSelectD"
+
+
+
 
 # Função de conexão
 def conectar_banco():
     return my.connect(
-        host="localhost",
-        user="root",
-        password="12345",
-        database="SuperSelectD"
+        host=host,
+        user=user,
+        password=password
+        database=database
     )
 
 # Rota principal
