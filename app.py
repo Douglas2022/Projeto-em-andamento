@@ -20,14 +20,12 @@ database = "SuperSelectD"
 # database = "SuperSelectD"
 
 
-
-
 # Função de conexão
 def conectar_banco():
     return my.connect(
         host=host,
         user=user,
-        password=password
+        password=password,
         database=database
     )
 
