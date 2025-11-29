@@ -8,7 +8,7 @@ app.secret_key = "superselect123"  # NECESSÁRIO para session e flash!
 host = "douglas89.mysql.pythonanywhere-services.com"
 user = "douglas89"
 password = "Paulo#182"
-database = "SuperSelectD"
+database = "douglas89$SuperSelectD"
 
 #Paulo#182
 #douglas89
