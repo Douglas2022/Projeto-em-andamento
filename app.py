@@ -82,7 +82,7 @@ def produtos():
 
 @app.route('/cadastro')
 def cadastro():
-    return render_template('Cadastro.html')
+    return render_template('cadastro.html')
 
 @app.route('/comentarios')
 def comentarios():
