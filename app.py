@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector as my
 
+
 app = Flask(__name__)
+app.secret_key = "superselect123"  # NECESSÁRIO para session e flash!
 
 
 # Função de conexão

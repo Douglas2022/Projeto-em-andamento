@@ -1,56 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Super Select</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-      }
 
-      nav {
-        background-color: #0033cc;
-        padding: 15px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>Super Select</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
 
-      nav a {
-        color: white;
-        margin-right: 20px;
-        text-decoration: none;
-        font-weight: bold;
-      }
+    nav {
+      background-color: #0033cc;
+      padding: 15px;
+    }
 
-      nav a:hover {
-        text-decoration: underline;
-      }
+    nav a {
+      color: white;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-      .conteudo {
-        padding: 20px;
-      }
-      .sair {
-        position: fixed;
-        top: 10px;
-        right: 15px;
-        font-weight: bold;
-        color:white;
-        font-size: 18px;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <a href="/login">Login</a>
-      <a href="/produtos">Produtos</a>
-      <a href="/cadastro">Cadastro</a>
-      <a href="/comentarios">Comentários</a>
-      <a href="/cliente">Cliente</a>
-      <a href="/administrador">Administrador</a>
-      <a href="/Sair" class="sair">Sair</a>
-    </nav>
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-    <div class="conteudo">{% block conteudo %}{% endblock %}</div>
-  </body>
+    .conteudo {
+      padding: 20px;
+    }
+
+    .sair {
+      position: fixed;
+      top: 10px;
+      right: 15px;
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="/login">Login</a>
+    <a href="/produtos">Produtos</a>
+    <a href="/cadastro">Cadastro</a>
+    <a href="/comentarios">Comentários</a>
+    <a href="/cliente">Cliente</a>
+    <a href="/administrador">Administrador</a>
+    <a href="/Sair" class="sair">Sair</a>
+  </nav>
+
+  <div class="conteudo">
+    {% block conteudo %}
+    <h1 style="color:#0033cc; text-align:center;">Bem-vindo ao Super Select!</h1>
+    <p style="font-size:18px; text-align:center; max-width:700px; margin:0 auto;">
+      É um prazer ter você aqui! No Super Select, trabalhamos todos os dias para oferecer
+      qualidade, economia e um atendimento que faz diferença. Explore nossos produtos,
+      confira as ofertas e sinta-se em casa. Sua melhor experiência começa agora!
+    </p>
+    {% endblock %}
+  </div>
+</body>
+
 </html>
