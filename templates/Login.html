@@ -1,0 +1,111 @@
+{% extends "Base.html" %}
+
+{% block conteudo %}
+
+<style>
+  .login-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+
+  .login-box {
+    width: 300px;
+    background: white;
+    padding: 25px 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+  .login-box img {
+    width: 90px;
+    margin-bottom: 20px;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box; /* ← ESSENCIAL PARA NÃO PASSAR DO TAMANHO */
+}
+
+
+  .extras {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0033cc; /* sua cor azul do nav */
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .login-btn:hover {
+    background-color: #0026a3;
+  }
+</style>
+
+<div class="login-area">
+  <div class="login-box">
+
+    <!-- Ícone igual ao modelo -->
+    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+
+    <form method="POST" action="/login">
+        
+      <div class="input-group">
+        <input type="email" name="email" placeholder="USERNAME" required>
+        <i class="bi bi-person"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="password" name="senha" placeholder="PASSWORD" required>
+        <i class="bi bi-lock"></i>
+      </div>
+
+      <div class="extras">
+        <label><input type="checkbox"> Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button class="login-btn">LOGIN</button>
+    </form>
+
+  </div>
+</div>
+
+<!-- Ícones Bootstrap -->
+<link rel="stylesheet" 
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+{% endblock %}

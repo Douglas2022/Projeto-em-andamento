@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Super Select</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+      }
+
+      nav {
+        background-color: #0033cc;
+        padding: 15px;
+      }
+
+      nav a {
+        color: white;
+        margin-right: 20px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      .conteudo {
+        padding: 20px;
+      }
+      .sair {
+        position: fixed;
+        top: 10px;
+        right: 15px;
+        font-weight: bold;
+        color:white;
+        font-size: 18px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/login">Login</a>
+      <a href="/produtos">Produtos</a>
+      <a href="/cadastro">Cadastro</a>
+      <a href="/comentarios">Comentários</a>
+      <a href="/cliente">Cliente</a>
+      <a href="/administrador">Administrador</a>
+      <a href="/Sair" class="sair">Sair</a>
+    </nav>
+
+    <div class="conteudo">{% block conteudo %}{% endblock %}</div>
+  </body>
+</html>

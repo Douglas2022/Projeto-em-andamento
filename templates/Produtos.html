@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block conteudo %}
+<h1 style="text-align:center; margin-top:20px;">Produtos SuperSelectD</h1>
+
+<div class="produtos-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px;">
+    {% for produto in produtos %}
+    <div class="produto-card" style="background:#fff; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.2); width:200px; padding:15px; text-align:center;">
+        <img src="{{ produto.link }}" alt="{{ produto.nome }}" style="width:100%; height:150px; object-fit:cover; border-radius:5px;">
+        <h3 style="margin:10px 0 5px; font-size:18px; color:#222;">{{ produto.nome }}</h3>
+        <p style="margin:5px 0; color:#555; font-size:14px;">Marca: {{ produto.marca }}</p>
+        <p style="margin:5px 0; color:#555; font-size:14px;">Tipo: {{ produto.tipo }}</p>
+        <p style="margin:5px 0; color:#555; font-size:14px;">Quantidade: {{ produto.quantidade }}</p>
+        <p style="font-weight:bold; color:#e74c3c; margin-top:10px;">R$ {{ produto.preco }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
