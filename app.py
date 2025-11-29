@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import mysql.connector as my
 
 app = Flask(__name__)
-app.secret_key = 'minha_chave_secreta'
+
 
 # Função de conexão
 def conectar_banco():
@@ -61,7 +61,9 @@ def produtos():
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM produtos")
     produtos = cursor.fetchall()
+    cursor.close()
     db.close()
+
     return render_template('Produtos.html', produtos=produtos)
 
 @app.route('/cadastro')
