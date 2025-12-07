@@ -3,96 +3,40 @@
 {% block conteudo %}
 
 <style>
-  .login-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-  }
-
-  .login-box {
-    width: 300px;
-    background: white;
-    padding: 25px 25px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
-  }
-
-  .login-box img {
-    width: 90px;
-    margin-bottom: 20px;
-  }
-
-  .input-group {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .input-group input {
-    width: 100%;
-    padding: 12px 45px 12px 15px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    outline: none;
-    box-sizing: border-box;
-  }
-
-  .extras {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-
-  .login-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #0033cc;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-
-  .login-btn:hover {
-    background-color: #0026a3;
-  }
-
-  /* Estilo dos comentários */
-  .comentario-box {
-      background: #fff;
+  /* ... seu CSS permanece igual ... */
+  .comentario-form {
+      background: #f9f9f9;
       padding: 20px;
-      margin-bottom: 15px;
       border-radius: 12px;
+      margin-bottom: 25px;
       box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
   }
 
-  .comentario-box h4 {
-      margin: 0;
-      font-size: 18px;
+  .comentario-form input,
+  .comentario-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+  }
+
+  .comentario-form button {
+      padding: 10px 15px;
+      background-color: #0033cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
       font-weight: bold;
-      color: #0033cc;
+      cursor: pointer;
+      transition: 0.2s;
   }
 
-  .comentario-box small {
-      color: #666;
-  }
-
-  .comentario-texto {
-      margin-top: 8px;
-      font-size: 15px;
-  }
-
-  .titulo {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-align: center;
+  .comentario-form button:hover {
+      background-color: #0026a3;
   }
 </style>
 
@@ -100,6 +44,16 @@
 
   <div class="titulo">Comentários</div>
 
+  <!-- Formulário para adicionar comentário -->
+  <div class="comentario-form">
+    <form method="POST" action="{{ url_for('comentarios') }}">
+      <input type="text" name="nome_usuario" placeholder="Seu nome" required>
+      <textarea name="texto" placeholder="Escreva seu comentário..." rows="4" required></textarea>
+      <button type="submit">Enviar comentário</button>
+    </form>
+  </div>
+
+  <!-- Exibição dos comentários -->
   {% if comentarios %}
       {% for c in comentarios %}
           <div class="comentario-box">

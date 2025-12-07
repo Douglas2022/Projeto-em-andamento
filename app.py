@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector as my
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -88,11 +89,17 @@ def produtos():
 @app.route('/cadastro')
 def cadastro():
     return render_template('cadastro.html')
-
-@app.route('/comentarios')
+@app.route('/comentarios', methods=['GET', 'POST'])
 def comentarios():
     db = conectar_banco()
     cursor = db.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        cursor.execute(
+            "INSERT INTO comentarios (nome_usuario, texto, data_hora, produto_id) VALUES (%s, %s, NOW(), %s)",
+            (request.form['nome_usuario'], request.form['texto'], 1)
+        )
+        db.commit()
 
     cursor.execute("""
         SELECT c.id, c.texto, c.data_hora, c.nome_usuario, p.nome AS nome_produto
@@ -100,12 +107,12 @@ def comentarios():
         JOIN produtos p ON c.produto_id = p.id
         ORDER BY c.data_hora DESC
     """)
-
     comentarios = cursor.fetchall()
     cursor.close()
     db.close()
 
     return render_template('Comentario.html', comentarios=comentarios)
+
 
 
 @app.route('/cliente')
