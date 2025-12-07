@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector as my
 from datetime import datetime
+from mysql.connector import IntegrityError
 
 
 app = Flask(__name__)
@@ -86,9 +87,40 @@ def produtos():
 
     return render_template('Produtos.html', produtos=produtos)
 
-@app.route('/cadastro')
+from flask import Flask, request, render_template, flash, redirect, url_for
+from mysql.connector.errors import IntegrityError
+
+@app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        email = request.form['email']
+        senha = request.form['senha']
+        cpf = request.form['cpf']
+        tipo = request.form.get('tipo', 'cliente')  # <-- CORRETO
+
+        db = conectar_banco()
+        cursor = db.cursor()
+        try:
+            cursor.execute("""
+                INSERT INTO usuarios (nome, email, senha, cpf, tipo)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (nome, email, senha, cpf, tipo))
+            db.commit()
+            flash('Usuário cadastrado com sucesso!', 'success')
+            return redirect(url_for('cadastro'))
+        except IntegrityError as e:
+            db.rollback()
+            flash(f'Erro ao cadastrar: {str(e)}', 'danger')
+        finally:
+            cursor.close()
+            db.close()
+
+    # GET ou se deu erro no POST
     return render_template('cadastro.html')
+
+
+
 @app.route('/comentarios', methods=['GET', 'POST'])
 def comentarios():
     db = conectar_banco()

@@ -2,6 +2,113 @@
 
 {% block conteudo %}
 
-<h1>Essa é a pagina de cadastro</h1>
+<style>
+  .cadastro-form {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 40px auto;
+      box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+  }
+
+  .cadastro-form h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0033cc;
+  }
+
+  .cadastro-form label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+  }
+
+  .cadastro-form input,
+  .cadastro-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+  }
+
+  .cadastro-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0033cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+  }
+
+  .cadastro-form button:hover {
+      background-color: #0026a3;
+  }
+
+  /* Flash messages */
+  .alert {
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+  }
+
+  .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+  }
+
+  .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+  }
+</style>
+
+<div class="cadastro-form">
+    <h1>Cadastro de Usuário</h1>
+
+    <!-- Mensagens flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('cadastro') }}">
+        <div>
+            <label>Nome:</label>
+            <input type="text" name="nome" required>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <div>
+            <label>Senha:</label>
+            <input type="password" name="senha" required>
+        </div>
+        <div>
+            <label>CPF:</label>
+            <input type="text" name="cpf" required>
+        </div>
+        <div>
+            <label>Tipo:</label>
+            <select name="tipo">
+                <option value="cliente" selected>Cliente</option>
+                <option value="administrador">Administrador</option>
+            </select>
+        </div>
+        <button type="submit">Cadastrar</button>
+    </form>
+</div>
 
 {% endblock %}
