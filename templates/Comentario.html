@@ -3,29 +3,50 @@
 {% block conteudo %}
 
 <style>
-  /* ... seu CSS permanece igual ... */
+  .comentario-titulo {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+  }
+
+  .container-comentarios {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+  }
+
   .comentario-form {
       background: #f9f9f9;
       padding: 20px;
       border-radius: 12px;
       margin-bottom: 25px;
       box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+      text-align: left;
+  }
+
+  .comentario-form label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
   }
 
   .comentario-form input,
-  .comentario-form textarea {
+  .comentario-form textarea,
+  .comentario-form select {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
+      padding: 12px;
+      margin-bottom: 15px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 14px;
-      outline: none;
+      font-size: 16px;
       box-sizing: border-box;
+      outline: none;
   }
 
   .comentario-form button {
-      padding: 10px 15px;
+      padding: 12px 20px;
       background-color: #0033cc;
       color: white;
       border: none;
@@ -33,37 +54,99 @@
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
+      width: 100%;
+      font-size: 18px;
   }
 
   .comentario-form button:hover {
       background-color: #0026a3;
   }
+
+  .comentario-box {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+  }
+
+  .comentario-box h4 {
+      margin: 0;
+      font-weight: bold;
+      font-size: 18px;
+  }
+
+  .comentario-box small {
+      color: #777;
+      font-size: 12px;
+  }
+
+  .comentario-texto {
+      margin-top: 8px;
+      font-size: 14px;
+  }
+
+  .alert {
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+  }
+
+  .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+  }
+
+  .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+  }
 </style>
 
-<div class="container mt-4">
+<div class="container-comentarios">
 
-  <div class="titulo">Comentários</div>
+  <h1 class="comentario-titulo">Comentários</h1>
 
-  <!-- Formulário para adicionar comentário -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+      {% endif %}
+  {% endwith %}
+
   <div class="comentario-form">
-    <form method="POST" action="{{ url_for('comentarios') }}">
-      <input type="text" name="nome_usuario" placeholder="Seu nome" required>
-      <textarea name="texto" placeholder="Escreva seu comentário..." rows="4" required></textarea>
-      <button type="submit">Enviar comentário</button>
-    </form>
+      <form method="POST" action="{{ url_for('comentarios') }}">
+          <!-- <label>Produto:</label>
+          <select name="produto_id" required>
+              {% for p in produtos %}
+                  <option value="{{ p.id }}">{{ p.nome }}</option>
+              {% endfor %}
+          </select> -->
+
+          <label>Nome:</label>
+          <input type="text" name="nome_usuario" required>
+
+          <label>Comentário:</label>
+          <textarea name="texto" rows="4" required></textarea>
+
+          <button type="submit">Enviar comentário</button>
+      </form>
   </div>
 
-  <!-- Exibição dos comentários -->
   {% if comentarios %}
       {% for c in comentarios %}
           <div class="comentario-box">
               <h4>{{ c.nome_usuario }}</h4>
-              <small>{{ c.data_hora }}</small>
+              <small>{{ c.data_hora }} - Produto: {{ c.nome_produto }}</small>
               <p class="comentario-texto">{{ c.texto }}</p>
           </div>
       {% endfor %}
   {% else %}
-      <p>Nenhum comentário encontrado.</p>
+      <p style="text-align:center; font-weight:bold; font-size:18px;">Nenhum comentário encontrado.</p>
   {% endif %}
 
 </div>

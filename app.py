@@ -120,19 +120,35 @@ def cadastro():
     return render_template('cadastro.html')
 
 
-
 @app.route('/comentarios', methods=['GET', 'POST'])
 def comentarios():
     db = conectar_banco()
     cursor = db.cursor(dictionary=True)
 
-    if request.method == 'POST':
-        cursor.execute(
-            "INSERT INTO comentarios (nome_usuario, texto, data_hora, produto_id) VALUES (%s, %s, NOW(), %s)",
-            (request.form['nome_usuario'], request.form['texto'], 1)
-        )
-        db.commit()
+    # Buscar produtos para o select
+    cursor.execute("SELECT id, nome FROM produtos")
+    produtos = cursor.fetchall()
 
+    # Filtrar produtos indesejados
+    produtos = [p for p in produtos if p['nome'] not in ['Petista', 'Bolsonaro']]
+
+    comentarios = []
+    if request.method == 'POST':
+        produto_id = request.form.get('produto_id')
+        nome_usuario = request.form.get('nome_usuario')
+        texto = request.form.get('texto')
+
+        if not produto_id or not nome_usuario or not texto:
+            flash("Todos os campos são obrigatórios.", "danger")
+        else:
+            cursor.execute(
+                "INSERT INTO comentarios (nome_usuario, texto, data_hora, produto_id) VALUES (%s, %s, NOW(), %s)",
+                (nome_usuario, texto, produto_id)
+            )
+            db.commit()
+            flash("Comentário cadastrado com sucesso!", "success")
+
+    # Buscar comentários
     cursor.execute("""
         SELECT c.id, c.texto, c.data_hora, c.nome_usuario, p.nome AS nome_produto
         FROM comentarios c
@@ -140,10 +156,15 @@ def comentarios():
         ORDER BY c.data_hora DESC
     """)
     comentarios = cursor.fetchall()
+
     cursor.close()
     db.close()
 
-    return render_template('Comentario.html', comentarios=comentarios)
+    return render_template('Comentario.html', comentarios=comentarios, produtos=produtos)
+
+
+
+
 
 
 
@@ -192,14 +213,23 @@ def salvar():
     return redirect("/administrador")
 
 # Excluir produto
-@app.route("/excluir/<int:id>")
+@app.route("/excluir/<int:id>", methods=["POST"])
 def excluir(id):
     db = conectar_banco()
     cursor = db.cursor()
-    cursor.execute("DELETE FROM produtos WHERE id=%s", (id,))
-    db.commit()
-    db.close()
+    try:
+        cursor.execute("DELETE FROM produtos WHERE id=%s", (id,))
+        db.commit()
+        flash("Produto excluído com sucesso", "success")
+    except Exception as e:
+        db.rollback()
+        flash(f"Erro ao excluir produto: {str(e)}", "danger")
+    finally:
+        cursor.close()
+        db.close()
     return redirect("/administrador")
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
