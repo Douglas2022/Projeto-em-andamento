@@ -1,0 +1,117 @@
+{% extends "Base.html" %}
+
+{% block conteudo %}
+
+<style>
+  .login-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+
+  .login-box {
+    width: 300px;
+    background: white;
+    padding: 25px 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .login-box img {
+    width: 90px;
+    margin-bottom: 20px;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .extras {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0033cc;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .login-btn:hover {
+    background-color: #0026a3;
+  }
+
+  /* Estilo dos comentários */
+  .comentario-box {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+  }
+
+  .comentario-box h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0033cc;
+  }
+
+  .comentario-box small {
+      color: #666;
+  }
+
+  .comentario-texto {
+      margin-top: 8px;
+      font-size: 15px;
+  }
+
+  .titulo {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <div class="titulo">Comentários</div>
+
+  {% if comentarios %}
+      {% for c in comentarios %}
+          <div class="comentario-box">
+              <h4>{{ c.nome_usuario }}</h4>
+              <small>{{ c.data_hora }}</small>
+              <p class="comentario-texto">{{ c.texto }}</p>
+          </div>
+      {% endfor %}
+  {% else %}
+      <p>Nenhum comentário encontrado.</p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

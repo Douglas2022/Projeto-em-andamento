@@ -1,5 +1,4 @@
 {% extends "Base.html" %}
-
 {% block conteudo %}
 
 <style>
@@ -46,6 +45,7 @@
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
   }
 
   .btn-delete {
@@ -140,28 +140,33 @@
     <tbody>
       {% for p in produtos %}
       <tr>
-        <td><img src="{{ p.link | default('https://via.placeholder.com/65') }}"></td>
-        <td>{{ p.nome | default('') }}</td>
-        <td>{{ p.marca | default('') }}</td>
-        <td>{{ p.tipo | default('') }}</td>
-        <td>{{ p.preco | default('0.00') }}</td>
-        <td>{{ p.quantidade | default('0') }}</td>
-        <td>{{ p.descricao | default('') }}</td>
+        <td><img src="{{ p.link or 'https://via.placeholder.com/65' }}"></td>
+        <td>{{ p.nome }}</td>
+        <td>{{ p.marca }}</td>
+        <td>{{ p.tipo }}</td>
+        <td>{{ p.preco }}</td>
+        <td>{{ p.quantidade }}</td>
+        <td>{{ p.descricao }}</td>
+
         <td>
+
+          <!-- BOTÃO EDITAR -->
           <a href="#" class="btn-edit" onclick="abrirEditar(
             {{ p.id }},
-            '{{ p.nome | escapejs }}',
-            '{{ p.marca | escapejs }}',
-            '{{ p.tipo | escapejs }}',
-            '{{ p.preco }}',
-            '{{ p.quantidade }}',
-            '{{ p.link | escapejs }}',
-            '{{ p.descricao | escapejs }}'
+            {{ (p.nome or '') | tojson }},
+            {{ (p.marca or '') | tojson }},
+            {{ (p.tipo or '') | tojson }},
+            {{ (p.preco or 0) | tojson }},
+            {{ (p.quantidade or 0) | tojson }},
+            {{ (p.link or '') | tojson }},
+            {{ (p.descricao or '') | tojson }}
           )">Editar</a>
 
+          <!-- BOTÃO EXCLUIR -->
           <form method="POST" action="/excluir/{{ p.id }}" style="display:inline;">
             <button type="submit" class="btn-delete">Excluir</button>
           </form>
+
         </td>
       </tr>
       {% endfor %}
@@ -170,7 +175,7 @@
   </table>
 </div>
 
-<!-- ========== MODAL EDITAR / ADICIONAR ========== -->
+<!-- ========== MODAL ========== -->
 <div class="modal-bg" id="modal">
   <div class="modal-box">
     
@@ -193,11 +198,13 @@
       <button class="save-btn" type="submit">Salvar</button>
 
     </form>
+
   </div>
 </div>
 
 <script>
 function abrirEditar(id, nome, marca, tipo, preco, quantidade, link, descricao) {
+
   document.getElementById("modal-title").innerText = "Editar Produto";
 
   document.getElementById("id").value = id;

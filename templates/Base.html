@@ -45,13 +45,15 @@
 
 <body>
   <nav>
-    <a href="/login">Login</a>
-    <a href="/produtos">Produtos</a>
-    <a href="/cadastro">Cadastro</a>
-    <a href="/comentarios">Comentários</a>
-    <a href="/cliente">Cliente</a>
-    <a href="/administrador">Administrador</a>
-    <a href="/Sair" class="sair">Sair</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('produtos') }}">Produtos</a>
+    <a href="{{ url_for('cadastro') }}">Cadastro</a>
+    <a href="{{ url_for('comentarios') }}">Comentários</a>
+    <a href="{{ url_for('cliente') }}">Cliente</a>
+    <a href="{{ url_for('administrador') }}">Administrador</a>
+
+    <!-- AGORA ESTÁ CORRETO -->
+    <a href="{{ url_for('sair') }}" class="sair">Sair</a>
   </nav>
 
   <div class="conteudo">

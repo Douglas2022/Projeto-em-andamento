@@ -7,15 +7,15 @@ app.secret_key = "superselect123"  # NECESSÁRIO para session e flash!
 
 
 
-host = "douglas89.mysql.pythonanywhere-services.com"
-user = "douglas89"
-password = "Paulo#182"
-database = "douglas89$SuperSelectD"
+# host = "douglas89.mysql.pythonanywhere-services.com"
+# user = "douglas89"
+# password = "Paulo#182"
+# database = "douglas89$SuperSelectD"
 
-# host = "localhost" 
-# user = "root" 
-# password = "12345" 
-# database = "SuperSelectD"
+host = "localhost" 
+user = "root" 
+password = "12345" 
+database = "SuperSelectD"
 
 
 # Função de conexão
@@ -33,11 +33,12 @@ def base():
     return render_template('Base.html')
 
 # Login
+# Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        senha = request.form['senha']
+        email = request.form.get('email')
+        senha = request.form.get('senha')
 
         conexao = conectar_banco()
         cursor = conexao.cursor(dictionary=True)
@@ -46,13 +47,16 @@ def login():
         cursor.close()
         conexao.close()
 
-        # Aqui a senha é verificada como texto simples
-        if usuario and usuario['senha'] == senha:
-            session['usuario'] = usuario['email']
-            session['nome'] = usuario['nome']
-            session['tipo'] = usuario['tipo']
+        # Evita erro caso usuario seja None ou tipo seja NULL
+        if usuario and usuario.get('senha') == senha:
+            session['usuario'] = usuario.get('email')
+            session['nome'] = usuario.get('nome')
+            session['tipo'] = usuario.get('tipo')
 
-            if usuario['tipo'].strip().lower() == 'administrador':
+            # Garantir que o campo "tipo" esteja correto antes de comparar
+            tipo_usuario = (usuario.get('tipo') or '').strip().lower()
+
+            if tipo_usuario == 'administrador':
                 return redirect(url_for('administrador'))
             else:
                 return redirect(url_for('produtos'))
@@ -61,6 +65,7 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('Login.html')
+
 
 # Logout
 @app.route('/sair')
@@ -86,7 +91,22 @@ def cadastro():
 
 @app.route('/comentarios')
 def comentarios():
-    return render_template('Comentarios.html')
+    db = conectar_banco()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT c.id, c.texto, c.data_hora, c.nome_usuario, p.nome AS nome_produto
+        FROM comentarios c
+        JOIN produtos p ON c.produto_id = p.id
+        ORDER BY c.data_hora DESC
+    """)
+
+    comentarios = cursor.fetchall()
+    cursor.close()
+    db.close()
+
+    return render_template('Comentario.html', comentarios=comentarios)
+
 
 @app.route('/cliente')
 def cliente():
